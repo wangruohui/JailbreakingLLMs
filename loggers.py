@@ -36,7 +36,7 @@ class WandBLogger:
         self.jailbreak_response = None
 
     def log(self, iteration: int, attack_list: list, response_list: list, judge_scores: list):
-        
+
         df = pd.DataFrame(attack_list)
         df["target_response"] = response_list
         df["judge_scores"] = judge_scores
@@ -72,12 +72,12 @@ class WandBLogger:
 
     def print_summary_stats(self, iter):
         bs = self.batch_size
-        df = self.table 
+        df = self.table
         mean_score_for_iter = df[df['iter'] == iter]['judge_scores'].mean()
         max_score_for_iter = df[df['iter'] == iter]['judge_scores'].max()
-        
+
         num_total_jailbreaks = df[df['judge_scores'] == 10]['conv_num'].nunique()
-        
+
         jailbreaks_at_iter = df[(df['iter'] == iter) & (df['judge_scores'] == 10)]['conv_num'].unique()
         prev_jailbreaks = df[(df['iter'] < iter) & (df['judge_scores'] == 10)]['conv_num'].unique()
 
@@ -99,14 +99,14 @@ class WandBLogger:
             print(f"Total Number of Conv. Jailbroken: {num_total_jailbreaks}/{self.batch_size} ({num_total_jailbreaks/self.batch_size*100:2.1f}%)")
             print(f"Example Jailbreak PROMPT:\n\n{self.jailbreak_prompt}\n\n")
             print(f"Example Jailbreak RESPONSE:\n\n{self.jailbreak_response}\n\n\n")
-            
+
         else:
             print("No jailbreaks achieved.")
             max_score = df['judge_scores'].max()
             print(f"Max Score: {max_score}")
 
 
-    
+
 
 # class Saver:
 #     """Saves the conversation."""
@@ -140,5 +140,3 @@ class WandBLogger:
 #                     )
 #                 else:
 #                     f.write(f"Assistant:\n {s}\n")
-
-
