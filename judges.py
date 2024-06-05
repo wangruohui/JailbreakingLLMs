@@ -37,7 +37,7 @@ class JudgeBase:
             print(f"Error in processing judge output: {raw_output}" )
             output = 1
         return output
-               
+
 class NoJudge(JudgeBase):
     def __init__(self, args):
         super(NoJudge, self).__init__(args)
@@ -59,7 +59,7 @@ class GPTJudge(JudgeBase):
 
     def score(self, attack_prompt_list, target_response_list):
         convs_list = [self.create_conv(self.get_judge_prompt(prompt, response)) for prompt, response in zip(attack_prompt_list, target_response_list)]
-        raw_outputs = self.judge_model.batched_generate(convs_list, 
+        raw_outputs = self.judge_model.batched_generate(convs_list,
                                                         max_n_tokens = self.max_n_tokens,
                                                         temperature = self.temperature)
         outputs = [self.process_output(raw_output) for raw_output in raw_outputs]
